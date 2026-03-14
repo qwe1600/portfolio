@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Портфолио Владимир Гавриленко</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* --- Общие стили --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s;
+}
+body {
+  background-color: #f0f2f5;
+  color: #1c1c1c;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* --- Dark Theme --- */
+body.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+body.dark header {
+  background: linear-gradient(135deg,#1c1c1c,#333);
+  color: #fff;
+}
+body.dark .tab-btn.active {
+  background: #50e3c2;
+  color: #121212;
+}
+body.dark .tab-content {
+  background: #1e1e1e;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  color: #e0e0e0;
+}
+body.dark .project-card {
+  background: #2a2a2a;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+body.dark .achievement-card {
+  background: #2c2c2c;
+  border-left-color: #50e3c2;
+}
+body.dark .certificate-card {
+  background: #2c2c2c;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+}
+body.dark .process-step {
+  background: #333;
+  color: #e0e0e0;
+}
+body.dark .modal-content {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+/* --- Header --- */
+header {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: linear-gradient(135deg,#4a90e2,#50e3c2);
+  color: white;
+  position: relative;
+}
+header img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  margin-bottom: 1rem;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+header img:hover {
+  transform: scale(1.05) rotate(3deg);
+}
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+/* --- Theme Toggle Button --- */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  background: #4a90e2;
+  color: white;
+  z-index: 1000;
+}
+@media(max-width: 768px) {
+  .theme-toggle {
+    position: static;
+    margin: 1rem auto 0 auto;
+    display: block;
+  }
+}
+
+/* --- Tabs --- */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.tab-btn {
+  padding: 0.6rem 1.8rem;
+  margin: 0 0.3rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 8px 8px 0 0;
+  background: #ddd;
+  transition: all 0.3s;
+}
+.tab-btn.active {
+  background: #4a90e2;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 0 10px 10px 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  animation: fadeIn 0.6s ease-in-out;
+}
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+section {
+  margin-bottom: 3rem;
+}
+section h2 {
+  color: #4a90e2;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+section h2::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: #50e3c2;
+  border-radius: 2px;
+}
+
+/* --- Projects --- */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 1.5rem;
+}
+.project-card {
+  background: #f9f9f9;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+.project-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+.project-card img {
+  width: 100%;
+  display: block;
+}
+.project-card p {
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* --- Modal --- */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+.modal-content {
+  background: white;
+  margin: 10% auto;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+  transition: 0.3s;
+}
+.modal-content img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.modal-content p {
+  font-size: 1rem;
+}
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* --- Achievements --- */
+.achievements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.achievement-card {
+  flex: 1 1 calc(50% - 1rem);
+  background: #eaf8f8;
+  padding: 1rem 1.2rem;
+  border-left: 5px solid #4a90e2;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+.achievement-card:hover {
+  transform: translateX(5px);
+}
+
+/* --- Certificates --- */
+.certificates {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 1.5rem;
+}
+.certificate-card {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+  text-align: center;
+}
+.certificate-card img {
+  width: 100%;
+  border-radius: 8px;
+}
+.certificate-card:hover {
+  transform: scale(1.03);
+}
+
+/* --- Process --- */
+.process {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+  gap: 1rem;
+}
+.process-step {
+  background: #f0f0f0;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s, background 0.3s;
+}
+.process-step:hover {
+  transform: translateY(-5px);
+  background: #d0eaff;
+}
+
+/* --- Footer --- */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: #4a90e2;
+  color: white;
+}
+.social-icons {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.social-icons a svg {
+  fill: white;
+  transition: transform 0.3s, fill 0.3s;
+  width: 30px;
+  height: 30px;
+}
+.social-icons a:hover svg {
+  transform: scale(1.2);
+  fill: #ffdd57;
+}
+body.dark .social-icons a svg {
+  fill: #e0e0e0;
+}
+body.dark .social-icons a:hover svg {
+  fill: #50e3c2;
+}
+
+/* --- Адаптивность --- */
+@media(max-width: 768px) {
+  .achievement-card { flex: 1 1 100%; }
+  .tab-btn { padding: 0.5rem 1rem; font-size: 0.9rem; }
+  header h1 { font-size: 2rem; }
+  header p { font-size: 1rem; }
+}
+@media(max-width: 480px) {
+  .projects, .certificates, .process { grid-template-columns: 1fr; }
+  .theme-toggle { width: 90%; text-align: center; margin: 1rem auto; display: block; }
+}
+
+/* --- Соцсети в два ряда на мобильных --- */
+@media (max-width: 600px) {
+  .social-icons {
+    flex-wrap: wrap;      /* разрешаем перенос на новую строку */
+    gap: 0.8rem;          /* отступы между иконками */
+    justify-content: center; /* центрируем иконки */
+  }
+  .social-icons a {
+    flex: 1 1 40%;        /* каждая иконка занимает примерно 40% ширины */
+    display: flex;
+    justify-content: center; /* иконка по центру "ячейки" */
+    margin-bottom: 0.5rem;  /* небольшой отступ между рядами */
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Theme toggle button -->
+<button class="theme-toggle">🌙 Dark Mode</button>
+
+<header>
+<img src="F7191CDD-F2F9-4F09-AD10-612BE1ADE2DC.PNG" alt="Vladimir Gavrilenko Photo">
+<h1>Vladimir Gavrilenko</h1>
+<p>Beginner Web Designer | Figma Designer | Creating Website Mockups</p>
+</header>
+
+<!-- Tabs -->
+<div class="tabs">
+<button class="tab-btn active" data-tab="en">English</button>
+<button class="tab-btn" data-tab="ru">Русский</button>
+</div>
+
+<!-- English Content -->
+<div id="en" class="tab-content active">
+<section>
+<h2>About Me</h2>
+<p>Hello! My name is Vladimir Gavrilenko, I am 14 years old. I am a beginner web designer passionate about creating beautiful and user-friendly interfaces. I participated in a hackathon, gaining real-world teamwork and design experience.</p>
+</section>
+
+<section>
+<h2>My Work</h2>
+<div class="projects">
+<div class="project-card" data-title="Website Mockup #1" data-img="Снимок экрана 2026-03-06 в 22.54.08.png" data-desc="Project 1 description">
+<img src="Снимок экрана 2026-03-06 в 22.54.08.png" alt="Mockup 1">
+<p>Website mockup #1 — <a href="https://qwe1600.github.io/Z-Bank/" style="color: rgb(64,64,160);">View Project</a></p>
+</div>
+<div class="project-card" data-title="Website Mockup #2" data-img="Снимок экрана 2026-03-06 в 23.19.41.png" data-desc="Project 2 description">
+<img src="Снимок экрана 2026-03-06 в 23.19.41.png" alt="Mockup 2">
+<p>Website mockup #2 — <a href="https://qwe1600.github.io/Domino/" style="color: rgb(64,64,160);">View Project</a></p>
+</div>
+</div>
+</section>
+
+<section>
+<h2>Website Creation Process</h2>
+<div class="process">
+<div class="process-step">💡 Idea & Research</div>
+<div class="process-step">📝 Wireframe & Prototype</div>
+<div class="process-step">🎨 UI Design</div>
+<div class="process-step">💻 Coding & Implementation</div>
+<div class="process-step">🧪 Testing & Fixes</div>
+<div class="process-step">✅ Final Result & Launch</div>
+</div>
+</section>
+
+<section>
+<h2>Achievements</h2>
+<div class="achievements">
+<div class="achievement-card">Participation in hackathon "ALTAN school"</div>
+</div>
+</section>
+
+<section>
+<h2>Certificates</h2>
+<div class="certificates">
+<div class="certificate-card">
+<img src="ALTAN.png" alt="Hackathon Certificate">
+<p>Hackathon Participation Certificate</p>
+</div>
+</div>
+</section>
+
+<section>
+<h2>Goals & Dreams</h2>
+<p>I aim to become a professional web designer, create projects used worldwide, and constantly improve my skills. I draw inspiration from art, nature, and modern technology.</p>
+</section>
+</div>
+
+<!-- Russian Content -->
+<div id="ru" class="tab-content">
+<section>
+<h2>О себе</h2>
+<p>Привет! Меня зовут Владимир Гавриленко, мне 14 лет. Я начинающий веб-дизайнер, увлечённый созданием красивых и удобных интерфейсов. Участвовал в хакатоне, где получил опыт работы в команде и проектирования реальных задач.</p>
+</section>
+
+<section>
+<h2>Мои работы</h2>
+<div class="projects">
+<div class="project-card" data-title="Макет сайта №1" data-img="Снимок экрана 2026-03-06 в 22.54.08.png" data-desc="Описание проекта 1">
+<img src="Снимок экрана 2026-03-06 в 22.54.08.png" alt="Макет 1">
+<p>Макет сайта №1 — <a href="https://qwe1600.github.io/Z-Bank/" style="color: rgb(64,64,160);">Посмотреть проект</a></p>
+</div>
+<div class="project-card" data-title="Макет сайта №2" data-img="Снимок экрана 2026-03-06 в 23.19.41.png" data-desc="Описание проекта 2">
+<img src="Снимок экрана 2026-03-06 в 23.19.41.png" alt="Макет 2">
+<p>Макет сайта №2 — <a href="https://qwe1600.github.io/Domino/" style="color: rgb(64,64,160);">Посмотреть проект</a></p>
+</div>
+</div>
+</section>
+
+<section>
+<h2>Процесс создания сайта</h2>
+<div class="process">
+<div class="process-step">💡 Идея и исследование</div>
+<div class="process-step">📝 Вайрфрейм и прототип</div>
+<div class="process-step">🎨 Дизайн интерфейса</div>
+<div class="process-step">💻 Кодирование и реализация</div>
+<div class="process-step">🧪 Тестирование и исправления</div>
+<div class="process-step">✅ Финальный результат и запуск</div>
+</div>
+</section>
+
+<section>
+<h2>Достижения</h2>
+<div class="achievements">
+<div class="achievement-card">Участие в хакатоне «ALTAN school»</div>
+</div>
+</section>
+
+<section>
+<h2>Сертификаты</h2>
+<div class="certificates">
+<div class="certificate-card">
+<img src="ALTAN.png" alt="Сертификат хакатона">
+<p>Сертификат участия в хакатоне</p>
+</div>
+</div>
+</section>
+
+<section>
+<h2>Цели и мечты</h2>
+<p>Стремлюсь стать профессиональным веб-дизайнером, создавать проекты для пользователей по всему миру и постоянно улучшать свои навыки. Вдохновляюсь искусством, природой и современными технологиями.</p>
+</section>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+<div class="modal-content">
+<span class="modal-close">&times;</span>
+<h3 id="modal-title"></h3>
+<img id="modal-img" src="" alt="">
+<p id="modal-desc"></p>
+</div>
+</div>
+
+<!-- Footer -->
+<footer>
+<h3>Contact Me</h3>
+<div class="social-icons">
+
+<a href="https://www.reddit.com/user/PercentagePlenty5000" target="_blank" title="Reddit">
+<svg viewBox="0 0 24 24">
+<path d="M24 12c0-1.1-.9-2-2-2-.5 0-.9.2-1.3.5-1.3-.9-3-1.4-4.9-1.5l1-3 2.6.6c0 1 .8 1.8 1.8 1.8S23 7.6 23 6.6 22.2 4.8 21.2 4.8c-.7 0-1.3.4-1.6 1l-3.2-.7c-.2 0-.4 0-.5.2l-1.2 3.6c-2 .1-3.8.6-5.1 1.5-.3-.3-.8-.5-1.3-.5-1.1 0-2 .9-2 2 0 .7.4 1.3 1 1.7-.1.4-.2.8-.2 1.3 0 3 3.5 5.5 7.9 5.5s7.9-2.5 7.9-5.5c0-.4-.1-.9-.2-1.3.7-.4 1.1-1 1.1-1.7zM9.5 13.5c-.7 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2 1.2.5 1.2 1.2-.5 1.2-1.2 1.2zm5 3.3c-.9.9-3.1.9-4 0-.2-.2-.2-.5 0-.7.2-.2.5-.2.7 0 .5.5 2.1.5 2.6 0 .2-.2.5-.2.7 0 .2.2.2.5 0 .7zm0-3.3c-.7 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2 1.2.5 1.2 1.2-.5 1.2-1.2 1.2z"/>
+</svg>
+</a>
+
+<a href="https://x.com/vladimirga17772" target="_blank" title="Twitter">
+<svg viewBox="0 0 24 24">
+<path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.2 4.2 0 0 0 1.85-2.32 8.3 8.3 0 0 1-2.66 1.02A4.15 4.15 0 0 0 16.11 4c-2.3 0-4.17 1.87-4.17 4.17 0 .33.04.65.11.96-3.46-.17-6.53-1.83-8.58-4.35a4.17 4.17 0 0 0-.56 2.1c0 1.45.74 2.73 1.86 3.48-.69-.02-1.33-.21-1.9-.52v.05c0 2.02 1.44 3.7 3.35 4.08-.35.1-.72.15-1.1.15-.27 0-.53-.02-.79-.07.54 1.67 2.09 2.88 3.93 2.91A8.33 8.33 0 0 1 2 18.57 11.75 11.75 0 0 0 8.29 20c7.55 0 11.68-6.25 11.68-11.67l-.01-.53A8.35 8.35 0 0 0 22.46 6z"/>
+</svg>
+</a>
+
+<a href="https://github.com/qwe1600" target="_blank" title="GitHub">
+<svg viewBox="0 0 24 24">
+<path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.69-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.97.1-.75.4-1.26.72-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.3 1.19-3.11-.12-.29-.52-1.45.11-3.02 0 0 .97-.31 3.18 1.19a11.06 11.06 0 0 1 5.8 0c2.21-1.5 3.18-1.19 3.18-1.19.63 1.57.23 2.73.11 3.02.74.81 1.19 1.85 1.19 3.11 0 4.43-2.69 5.41-5.25 5.69.41.35.77 1.05.77 2.12 0 1.53-.01 2.76-.01 3.14 0 .3.21.66.79.55A10.99 10.99 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5z"/>
+</svg>
+</a>
+
+<a href="https://discord.gg/qMpg8rJm" target="_blank" title="Discord">
+<svg viewBox="0 0 24 24">
+<path d="M20.3 4.4A19.8 19.8 0 0 0 16.2 3c-.2.4-.4.9-.5 1.3a18.3 18.3 0 0 0-5.4 0c-.1-.4-.3-.9-.5-1.3a19.8 19.8 0 0 0-4.1 1.4C2.7 8.3 2 12 2.3 15.6c2 1.5 3.9 2.4 5.7 3-.5-.7-.9-1.5-1.2-2.3.3.2.7.3 1 .5 2.4 1.1 5 1.1 7.4 0 .3-.1.7-.3 1-.5-.3.8-.7 1.6-1.2 2.3 1.8-.6 3.7-1.5 5.7-3 .4-4.2-.7-7.8-3.4-11.2zM9.5 13.7c-.8 0-1.4-.7-1.4-1.6s.6-1.6 1.4-1.6c.8 0 1.4.7 1.4 1.6s-.6 1.6-1.4 1.6zm5 0c-.8 0-1.4-.7-1.4-1.6s.6-1.6 1.4-1.6c.8 0 1.4.7 1.4 1.6s-.6 1.6-1.4 1.6z"/>
+</svg>
+</a>
+
+<a href="https://viber.com" target="_blank" title="Viber">
+<svg viewBox="0 0 24 24">
+<path d="M12 2C6.48 2 2 5.9 2 10.7c0 2.7 1.4 5.1 3.7 6.7l-.8 3.1c-.1.3.2.6.5.5l3.3-.9c1 .3 2.1.4 3.3.4 5.5 0 10-3.9 10-8.8S17.5 2 12 2zm5.1 11.7c-.2.6-1.1 1.2-1.6 1.3-.4.1-.9.2-2.9-.7-2.5-1.1-4.1-3.7-4.2-3.9-.1-.2-1-1.3-1-2.4 0-1.1.6-1.7.8-1.9.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.7.8 1.8.1.2.1.4 0 .6-.1.2-.2.4-.4.6-.2.2-.3.3-.1.7.2.4.9 1.5 2 2 .4.2.6.2.8 0 .2-.2.8-.9 1-.9.2 0 .4 0 .6.1.2.1 1.5.7 1.7.8.2.1.3.2.3.3 0 .1 0 .6-.2 1.2z"/>
+</svg>
+</a>
+
+<a href="https://twitch.tv/fghhhrtre20007" target="_blank" title="Twitch">
+<svg viewBox="0 0 24 24">
+<path d="M4 2L2 6v14h6v2h2l2-2h3l5-5V2H4zm14 12l-3 3h-3l-2 2v-2H6V4h12v10zm-8-7h2v5h-2V7zm4 0h2v5h-2V7z"/>
+</svg>
+</a>
+
+<a href="https://facebook.com/qwe1600_azer" target="_blank" title="Facebook">
+<svg viewBox="0 0 24 24">
+<path d="M22 12A10 10 0 1 0 10.4 21.9v-7h-2.8V12h2.8V9.8c0-2.8 1.7-4.3 4.2-4.3 1.2 0 2.4.2 2.4.2v2.6h-1.4c-1.4 0-1.8.8-1.8 1.7V12h3.1l-.5 2.9h-2.6v7A10 10 0 0 0 22 12z"/>
+</svg>
+</a>
+
+<a href="https://instagram.com/qwe1600_azer" target="_blank" title="Instagram">
+<svg viewBox="0 0 24 24">
+<path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5.3A4.7 4.7 0 1 1 7.3 12 4.7 4.7 0 0 1 12 7.3zm0 7.7A3 3 0 1 0 9 12a3 3 0 0 0 3 3zm4.8-8.6a1.1 1.1 0 1 1-1.1-1.1 1.1 1.1 0 0 1 1.1 1.1z"/>
+</svg>
+</a>
+
+<a href="https://www.snapchat.com/add/qwe256239" target="_blank" title="Snapchat">
+<svg viewBox="0 0 24 24">
+<path d="M12 2c-3.3 0-6 2.6-6 5.8 0 .5 0 1 .1 1.4-.7.4-1.3.6-1.8.6-.3 0-.5.2-.5.5 0 .6 1 .9 1.5 1.1.2.1.3.3.3.5-.1.5-.4 1.1-.9 1.6-.2.2-.2.5 0 .7.6.6 1.7.7 2.5.5.6 1.3 2.3 2.3 4.8 2.3s4.2-1 4.8-2.3c.8.2 1.9.1 2.5-.5.2-.2.2-.5 0-.7-.5-.5-.8-1.1-.9-1.6 0-.2.1-.4.3-.5.5-.2 1.5-.5 1.5-1.1 0-.3-.2-.5-.5-.5-.5 0-1.1-.2-1.8-.6.1-.4.1-.9.1-1.4C18 4.6 15.3 2 12 2z"/>
+</svg>
+</a>
+
+<a href="https://wa.me/77773296481" target="_blank" title="WhatsApp">
+<svg viewBox="0 0 24 24">
+<path d="M20 4A10 10 0 0 0 4.3 18.5L3 22l3.6-1.2A10 10 0 1 0 20 4zm-8 16a7.7 7.7 0 0 1-3.9-1.1l-.3-.2-2.3.8.8-2.2-.2-.3A7.7 7.7 0 1 1 12 20zm4.2-5.7c-.2-.1-1.2-.6-1.4-.7-.2-.1-.3-.1-.4.1-.1.2-.5.7-.6.8-.1.1-.2.1-.4 0-1.3-.6-2.1-1.1-3-2.5-.2-.3.2-.3.6-1.1.1-.2 0-.3 0-.4-.1-.1-.4-1-.6-1.4-.2-.4-.3-.3-.4-.3h-.4c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 2s.8 2.4.9 2.6c.1.2 1.6 2.5 4 3.5.6.3 1 .4 1.3.5.6.2 1.1.2 1.5.1.5-.1 1.2-.5 1.3-1 .2-.5.2-.9.1-1-.1-.1-.2-.2-.4-.3z"/>
+</svg>
+
+<a href="https://youtube.com/@user-zj6kl8ic4w" target="_blank" title="YouTube">
+<svg viewBox="0 0 24 24">
+<path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.4 3.5 12 3.5 12 3.5s-7.4 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c2 .6 9.4.6 9.4.6s7.4 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8zM9.7 15.5v-7L15.8 12l-6.1 3.5z"/>
+</svg>
+</a>
+
+<a href="https://tiktok.com/@meditation348" target="_blank" title="TikTok">
+<svg viewBox="0 0 24 24">
+<path d="M21 8.5a7.7 7.7 0 0 1-4.4-1.4V14a6 6 0 1 1-6-6c.3 0 .6 0 .9.1v3.1a3 3 0 1 0 2.1 2.9V2h3a4.7 4.7 0 0 0 4.4 3.4v3.1z"/>
+</svg>
+</a>
+
+<a href="https://t.me/q12h13" target="_blank" title="Telegram">
+<svg viewBox="0 0 24 24">
+<path d="M9.04 15.47l-.39 5.49c.56 0 .8-.24 1.09-.53l2.62-2.5 5.43 3.97c1 .55 1.7.26 1.96-.92l3.56-16.68h0c.31-1.45-.52-2.02-1.49-1.66L1.8 9.6c-1.42.55-1.4 1.34-.24 1.7l5.1 1.59L18.5 5.4c.56-.34 1.07-.15.65.19"/>
+</svg>
+</a>
+</div>
+<p>© 2026 Vladimir Gavrilenko</p>
+</footer>
+
+<script>
+// Tabs
+const tabs = document.querySelectorAll('.tab-btn');
+const contents = document.querySelectorAll('.tab-content');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(btn => btn.classList.remove('active'));
+    contents.forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Theme toggle
+const themeToggle = document.querySelector('.theme-toggle');
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  themeToggle.textContent = document.body.classList.contains('dark') ? '☀️ Light Mode' : '🌙 Dark Mode';
+});
+
+// Modal
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modal-title');
+const modalImg = document.getElementById('modal-img');
+const modalDesc = document.getElementById('modal-desc');
+const modalClose = document.querySelector('.modal-close');
+
+document.querySelectorAll('.project-card').forEach(card => {
+  card.addEventListener('click', () => {
+    modal.style.display = 'block';
+    modalTitle.textContent = card.dataset.title;
+    modalImg.src = card.dataset.img;
+    modalDesc.textContent = card.dataset.desc;
+  });
+});
+
+modalClose.addEventListener('click', () => { modal.style.display='none'; });
+window.addEventListener('click', e => { if(e.target==modal){ modal.style.display='none'; }});
+</script>
+
+</body>
+</html>
